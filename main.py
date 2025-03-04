@@ -1,8 +1,10 @@
+import sys
 import pygame
 from constants import *
 from player import Player
 from asteroid import Asteroid
 from asteroidfield import *
+from circleshape import CircleShape
 
 def main():
     pygame.init()
@@ -27,7 +29,12 @@ def main():
             if event.type == pygame.QUIT:
                 return
             
-        updatable.update(dt)    
+        updatable.update(dt)  
+        for asteroid in asteroids:
+            if asteroid.check_collision(player) == True:
+                print("Game Over!")
+                sys.exit()
+
         screen.fill("black")
         for obj in drawable:
             obj.draw(screen)
