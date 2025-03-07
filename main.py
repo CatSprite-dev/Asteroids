@@ -10,15 +10,14 @@ from shot import Shot
 
 pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Астероиды - Меню")
-# Шрифт
-font = pygame.font.Font(None, FONT_SIZE)
+pygame.display.set_caption("Астероиды")
 
+font = pygame.font.Font(None, FONT_SIZE)
 score = 0
+
 def draw_score():
     score_text = font.render(f"Очки: {score}", True, GREEN)
     screen.blit(score_text, (10, 10))
-
 
 # Функция для создания текста
 def draw_text(text, font, color, surface, x, y):
@@ -36,7 +35,7 @@ def main_menu():
     global score
     while True:
         screen.fill(BLACK)
-
+        
         # Заголовок меню
         draw_text("Астероиды", font, WHITE, screen, SCREEN_WIDTH // 2, 100)
 
@@ -55,24 +54,19 @@ def main_menu():
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
-                score = 0
                 if button_start.collidepoint(mouse_pos):
-                    main()
-                    return "start"  # Возвращаем "start", чтобы начать игру
+                    return "start"
                 if button_quit.collidepoint(mouse_pos):
                     pygame.quit()
                     sys.exit()
         draw_score()
-        # Обновление экрана
+    
         pygame.display.flip()
 
 
 def main():
     global score
-    
-    # pygame.init()
-    print("Starting Asteroids!")
-    # screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    score = 0
     clock = pygame.time.Clock()
     
     updatable = pygame.sprite.Group()
@@ -87,7 +81,6 @@ def main():
 
     Player.containers = (updatable, drawable)
     player = Player(x = SCREEN_WIDTH / 2, y = SCREEN_HEIGHT / 2   )
-
     dt = 0
 
     while True:
@@ -100,15 +93,19 @@ def main():
         for asteroid in asteroids:
             if asteroid.check_collision(player) == True:
                 print("Game Over!")
-                main_menu()
-                draw_score()
+                return main_menu()
         
         for asteroid in asteroids:
             for shot in shots:
                 if asteroid.check_collision(shot) == True:
                     asteroid.split()
                     shot.kill()
-                    score += 10
+                    if asteroid.radius == ASTEROID_MAX_RADIUS: 
+                        score += 1
+                    elif asteroid.radius == ASTEROID_MAX_RADIUS - ASTEROID_MIN_RADIUS:
+                        score += 2
+                    else:
+                        score += 3
                     
         screen.fill("black")
         for obj in drawable:
