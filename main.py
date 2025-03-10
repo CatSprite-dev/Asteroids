@@ -19,18 +19,15 @@ def draw_score():
     score_text = font.render(f"Очки: {score}", True, GREEN)
     screen.blit(score_text, (10, 10))
 
-# Функция для создания текста
 def draw_text(text, font, color, surface, x, y):
     text_obj = font.render(text, True, color)
     text_rect = text_obj.get_rect(center=(x, y))
     surface.blit(text_obj, text_rect)
 
-# Функция для создания кнопки
 def draw_button(surface, color, x, y, width, height, text):
     pygame.draw.rect(surface, color, (x, y, width, height))
     draw_text(text, font, BLACK, surface, x + width // 2, y + height // 2)
 
-# Основная функция меню
 def main_menu():
     global score
     while True:
@@ -39,15 +36,12 @@ def main_menu():
         # Заголовок меню
         draw_text("Астероиды", font, WHITE, screen, SCREEN_WIDTH // 2, 100)
 
-        # Координаты и размеры кнопок
         button_start = pygame.Rect(SCREEN_WIDTH // 2 - BUTTON_WIDTH // 2, 200, BUTTON_WIDTH, BUTTON_HEIGHT)
         button_quit = pygame.Rect(SCREEN_WIDTH // 2 - BUTTON_WIDTH // 2, 300, BUTTON_WIDTH, BUTTON_HEIGHT)
 
-        # Отрисовка кнопок
         draw_button(screen, WHITE, button_start.x, button_start.y, BUTTON_WIDTH, BUTTON_HEIGHT, "Начать игру")
         draw_button(screen, WHITE, button_quit.x, button_quit.y, BUTTON_WIDTH, BUTTON_HEIGHT, "Выход")
 
-        # Обработка событий
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
