@@ -31,7 +31,7 @@ class Player(CircleShape):
     def draw(self, screen):
         keys = pygame.key.get_pressed()
         pygame.draw.polygon(screen, "white", self.triangle(), 2)
-        if keys[pygame.K_w] and self.timer <= 0:
+        if keys[pygame.K_w]:
             pygame.draw.polygon(screen, "white", self.engine_fire(), 2)
             
 
